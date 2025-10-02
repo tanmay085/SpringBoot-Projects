@@ -1,0 +1,7 @@
+package com.app.foodDelivery.Exception;
+
+public class RestaurantNotFound extends RuntimeException{
+    public RestaurantNotFound(String message){
+        super(message);
+    }
+}
