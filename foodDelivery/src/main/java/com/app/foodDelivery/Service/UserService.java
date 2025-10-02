@@ -4,10 +4,7 @@ package com.app.foodDelivery.Service;
 import com.app.foodDelivery.Dto.MenuItemDto;
 import com.app.foodDelivery.Dto.OrderDto;
 import com.app.foodDelivery.Dto.UserDto;
-import com.app.foodDelivery.Entity.MenuItem;
-import com.app.foodDelivery.Entity.Order;
-import com.app.foodDelivery.Entity.OrderDetail;
-import com.app.foodDelivery.Entity.User;
+import com.app.foodDelivery.Entity.*;
 import com.app.foodDelivery.Exception.MenuNotFound;
 import com.app.foodDelivery.Exception.UserNotFound;
 import com.app.foodDelivery.Repository.MenuItemRepository;
@@ -70,5 +67,28 @@ public class UserService {
         return orderRepository.save(order);
 
     }
+
+    public void confirmOrder(Long id){
+        Order order=orderRepository.findById(id).get();
+        if(!order.getOrderStatus().equals("pending")){
+            throw new RuntimeException("Only pending order can confirm");
+        }
+        order.setOrderStatus("confirm");
+
+        Delivery delivery= new Delivery();
+
+        delivery.setOrder(order);
+        delivery.setDeliveryStatus("pending");
+        delivery.setDeliveryAddress(order.getUser().getAddress());
+        delivery.setDeliveryPerson("Assigned");
+
+    }
+
+    public void cancelOrder(Long id){
+        Order order=orderRepository.findById(id).get();
+
+        orderRepository.delete(order);
+    }
+
 
 }
