@@ -1,0 +1,7 @@
+package com.app.carRental.Exception;
+
+public class CarAlreadyBookedException extends  RuntimeException{
+    public CarAlreadyBookedException (String message){
+        super(message);
+    }
+}
